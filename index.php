@@ -28,14 +28,14 @@
 						//}
 
 						// Filter ID
-						$ID = $_GET['ID'];
-						$ID = (int)preg_replace("/[^0-9]+/", "", $ID);
+						$pageID = $_GET['ID'];
+						$pageID = (int)preg_replace("/[^0-9]+/", "", $pageID);
 
 						//Serve pages, here begins the logic of asigning pages to specific roles
-						if (($ID == "") && ((in_array("user",$rolesAssigned)) || (in_array("admin",$rolesAssigned)))){ //if role user or admin is assigned
+						if (($pageID == "") && ((in_array("user",$rolesAssigned)) || (in_array("admin",$rolesAssigned)))){ //if role user or admin is assigned
 							include './data/userpage.php';
 						} 
-						else if (($ID == 1) && (in_array("admin",$rolesAssigned))){  //if role admin is assigned
+						else if (($pageID == 1) && (in_array("admin",$rolesAssigned))){  //if role admin is assigned
 							include './data/adminpage.php';
 						}  
 						else{
