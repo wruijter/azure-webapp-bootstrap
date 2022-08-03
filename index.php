@@ -16,7 +16,7 @@
 						$tokendataArray = json_decode($tokendata); //JSON string to PHP object
 						$rolesAssigned = $tokendataArray->{'roles'}; //https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/active-directory/develop/howto-add-app-roles-in-azure-ad-apps.md
 						
-						// connect to database
+						// connect to database & start the actual code
 						$con = mysqli_init();
 						mysqli_ssl_set($con,NULL,NULL, "./cert/DigiCertGlobalRootCA.crt.pem", NULL, NULL);
 						if(mysqli_real_connect($con, "xxxx.mysql.database.azure.com", "username", "password", "database", 3306, MYSQLI_CLIENT_SSL)){
@@ -27,7 +27,7 @@
 							//	echo $row['KLANTEN'];
 							//}
 
-							// Filter ID
+							// Get & filter page ID
 							$pageID = $_GET['ID'];
 							$pageID = (int)preg_replace("/[^0-9]+/", "", $pageID);
 
@@ -39,7 +39,7 @@
 								include './data/adminpage.php';
 							}  
 							else{
-								echo "<br><center><h1>ID not known</h1></center><br>";
+								echo "<br><center><h1>Page ID not known</h1></center><br>";
 							}
 							
 							//close the connection
