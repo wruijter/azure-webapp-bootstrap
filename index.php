@@ -47,7 +47,7 @@
 						}
 						//Database not available
 						else{
-								echo "<br><center><h1>No database available</h1></center><br>";
+							echo "<br><center><h1>No database available</h1></center><br>";
 						}
 					}
 					// Something definitly gone wrong, app registration is not ok or token is not being passed trough....
