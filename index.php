@@ -11,7 +11,8 @@
 					// Find Approles related to the user
 					$tokendata = base64_decode(explode(".",$_SERVER['HTTP_X_MS_TOKEN_AAD_ID_TOKEN'])[1]); //https://stackoverflow.com/questions/58105561/get-assigned-roles-in-azure-web-app-with-php
 					$tokendataArray = json_decode($tokendata); //JSON string to PHP object
-
+					$roles = $tokendataArray->{'roles'}; //https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/active-directory/develop/howto-add-app-roles-in-azure-ad-apps.md
+					
 					// connect to database
 					$con = mysqli_init();
 					mysqli_ssl_set($con,NULL,NULL, "./cert/DigiCertGlobalRootCA.crt.pem", NULL, NULL);
@@ -28,10 +29,10 @@
 					$ID = (int)preg_replace("/[^0-9]+/", "", $ID);
 
 					//Serve pages, here begins the logic of asigning pages to specific roles
-					if (($ID == "") && ((in_array("user",$tokendataArray->{'roles'})) || (in_array("admin",$tokendataArray->{'roles'})))){
+					if (($ID == "") && ((in_array("user",$roles)) || (in_array("admin",$roles)))){ //if role user or admin is assigned
 						include './data/userpage.php';
 					} 
-					if (($ID == 1) && (in_array("admin",$tokendataArray->{'roles'}))){ 
+					else if (($ID == 1) && (in_array("admin",$roles))){  //if role admin is assigned
 						include './data/adminpage.php';
 					}  
 					else{
