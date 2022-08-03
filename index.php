@@ -19,33 +19,38 @@
 						// connect to database
 						$con = mysqli_init();
 						mysqli_ssl_set($con,NULL,NULL, "./cert/DigiCertGlobalRootCA.crt.pem", NULL, NULL);
-						mysqli_real_connect($con, "xxxx.mysql.database.azure.com", "username", "password", "database", 3306, MYSQLI_CLIENT_SSL);
-						
-						// Do Some MySQL stuff if neccesery, my prefference is to do this in the included PHP files but to start the main connection here (managed from 1 place)
-						//$result = mysqli_query($con,"SELECT * FROM `klanten`");
-						//while ($row = mysqli_fetch_assoc($result)) {
-						//	echo $row['KLANTEN'];
-						//}
+						if(mysqli_real_connect($con, "xxxx.mysql.database.azure.com", "username", "password", "database", 3306, MYSQLI_CLIENT_SSL)){
+							
+							// Do Some MySQL stuff if neccesery, my prefference is to do this in the included PHP files but to start the main connection here (managed from 1 place)
+							//$result = mysqli_query($con,"SELECT * FROM `klanten`");
+							//while ($row = mysqli_fetch_assoc($result)) {
+							//	echo $row['KLANTEN'];
+							//}
 
-						// Filter ID
-						$pageID = $_GET['ID'];
-						$pageID = (int)preg_replace("/[^0-9]+/", "", $pageID);
+							// Filter ID
+							$pageID = $_GET['ID'];
+							$pageID = (int)preg_replace("/[^0-9]+/", "", $pageID);
 
-						//Serve pages, here begins the logic of asigning pages to specific roles
-						if (($pageID == "") && ((in_array("user",$rolesAssigned)) || (in_array("admin",$rolesAssigned)))){ //if role user or admin is assigned
-							include './data/userpage.php';
-						} 
-						else if (($pageID == 1) && (in_array("admin",$rolesAssigned))){  //if role admin is assigned
-							include './data/adminpage.php';
-						}  
-						else{
-							echo "<br><center><h1>Error</h1></center><br>";;
+							//Serve pages, here begins the logic of asigning pages to specific roles
+							if (($pageID == "") && ((in_array("user",$rolesAssigned)) || (in_array("admin",$rolesAssigned)))){ //if role user or admin is assigned
+								include './data/userpage.php';
+							} 
+							else if (($pageID == 1) && (in_array("admin",$rolesAssigned))){  //if role admin is assigned
+								include './data/adminpage.php';
+							}  
+							else{
+								echo "<br><center><h1>ID not known</h1></center><br>";
+							}
+							
+							//close the connection
+							mysqli_close($con);
 						}
-						
-						//close the connection
-						mysqli_close($con);
+						//Database not available
+						else{
+								echo "<br><center><h1>No database available</h1></center><br>";
+						}
 					}
-					// Something definitly gone wrong....
+					// Something definitly gone wrong, app registration is not ok or token is not being passed trough....
 					else{
 						echo "<center>User logged in but token not available....</center>";
 					}
