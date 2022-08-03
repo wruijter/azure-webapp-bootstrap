@@ -31,7 +31,7 @@
 					if (($ID == "") && ((in_array("user",$tokendataArray->{'roles'})) || (in_array("admin",$tokendataArray->{'roles'})))){
 						include './data/userpage.php';
 					} 
-					if (($ID == 1) && (in_array("Admin",$tokendataArray->{'roles'}))){ 
+					if (($ID == 1) && (in_array("admin",$tokendataArray->{'roles'}))){ 
 						include './data/adminpage.php';
 					}  
 					else{
